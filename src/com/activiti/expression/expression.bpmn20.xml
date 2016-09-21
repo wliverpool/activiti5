@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.kafeitu.me/activiti">
+	<process id="expression" name="expression">
+		<startEvent id="startevent1" name="Start"></startEvent>
+		<!-- 执行myBean的print()方法,结果保存到变量returnValue中 -->
+		<serviceTask id="execExpression" name="计算表达式" activiti:expression="${myBean.print(name)}"
+					 activiti:resultVariableName="returnValue"></serviceTask>
+		<!-- 调用myBean的invokeTask()方法,并传递内置变量参数task,内置变量参数task只能在userTask这个标签内使用  -->
+		<userTask id="usertask1" name="在用户任务上添加表达式">
+			<extensionElements>
+				<activiti:taskListener event="create" expression="${myBean.invokeTask(task)}"></activiti:taskListener>
+			</extensionElements>
+		</userTask>
+		<!-- 获取内置变量authenticatedUserId,但是调用此变量有前提需要在流程启动前设置过identityService的setAuthenticatedUserId()方法 -->
+		<serviceTask id="getAuthenticatedUserId" name="获取流程启动人" activiti:expression="${authenticatedUserId}"
+					 activiti:resultVariableName="authenticatedUserIdForTest"></serviceTask>
+		<!-- 调用myBean的printBkey()方法,并传递内置变量参数execution,在流程启动之后的运行阶段都可以调用execution内置变量 -->
+		<serviceTask id="executionExample" name="Execution变量" activiti:expression="${myBean.printBkey(execution)}"
+					 activiti:resultVariableName="businessKey"></serviceTask>
+		<endEvent id="endevent1" name="End"></endEvent>
+					 
+		<sequenceFlow id="flow1" name="" sourceRef="startevent1" targetRef="getAuthenticatedUserId"></sequenceFlow>
+		<sequenceFlow id="flow2" name="" sourceRef="getAuthenticatedUserId" targetRef="execExpression"></sequenceFlow>
+		<sequenceFlow id="flow3" name="" sourceRef="execExpression" targetRef="executionExample"></sequenceFlow>
+		<sequenceFlow id="flow4" name="" sourceRef="executionExample" targetRef="usertask1"></sequenceFlow>
+		<sequenceFlow id="flow5" name="" sourceRef="usertask1" targetRef="endevent1"></sequenceFlow>
+		
+	</process>
+</definitions>

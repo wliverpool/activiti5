@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.kafeitu.me/activiti">
+	<process id="testMailTask" name="testMailTask" isExecutable="true">
+		<startEvent id="startevent1" name="Start"></startEvent>
+		<serviceTask id="mailtask1" name="Mail Task" activiti:type="mail">
+			<extensionElements>
+				<activiti:field name="to">
+					<activiti:expression>${to}</activiti:expression>
+				</activiti:field>
+				<activiti:field name="from">
+					<activiti:expression>${from}</activiti:expression>
+				</activiti:field>
+				<activiti:field name="subject">
+					<activiti:expression>你好,${name}</activiti:expression>
+				</activiti:field>
+				<activiti:field name="charset">
+					<activiti:expression>UTF-8</activiti:expression>
+				</activiti:field>
+				<activiti:field name="html">
+					<activiti:expression>
+						<![CDATA[
+							<HTML>
+								<body>
+									你好 ${name},<br/><br/>
+									如果你收到这封邮件,恭喜你
+								</body>
+							</HTML>
+						]]>
+					</activiti:expression>
+				</activiti:field>
+			</extensionElements>
+		</serviceTask>
+		<endEvent id="endevent1" name="End"></endEvent>
+					 
+		<sequenceFlow id="flow1" name="" sourceRef="startevent1" targetRef="mailtask1"></sequenceFlow>
+		<sequenceFlow id="flow2" name="" sourceRef="mailtask1" targetRef="endevent1"></sequenceFlow>
+
+	</process>
+</definitions>

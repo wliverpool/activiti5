@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions id="definitions" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:activiti="http://activiti.org/bpmn"
+             targetNamespace="http://activiti.org/bpmn20">
+             
+	<process id="helloLeave" name="helloLeave">
+		<startEvent id="startevent1" name="Start"></startEvent>
+		<userTask id="usertask1" name="领导审批">
+			<potentialOwner>
+				<resourceAssignmentExpression>
+					<formalExpression>deptLeader</formalExpression>
+				</resourceAssignmentExpression>
+			</potentialOwner>
+		</userTask>
+		<endEvent id="endevent1" name="End"></endEvent>
+		<sequenceFlow id="flow1" name="" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
+		<sequenceFlow id="flow2" name="" sourceRef="usertask1" targetRef="outputAuditResult"></sequenceFlow>
+		<scriptTask id="outputAuditResult" name="输出审批结果" scriptFormat="groovy">
+			<script>
+				<![CDATA[out:println "applyUser:" + applyUser + ",days:" + days +",approval:"+approved;]]>
+			</script>
+		</scriptTask>
+		<sequenceFlow id="flow3" name="" sourceRef="outputAuditResult" targetRef="endevent1"></sequenceFlow>
+	</process>
+	
+</definitions>

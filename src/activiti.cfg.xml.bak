@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"> 
+	<!-- activiti的流程配置对象 -->
+	<bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
+		<property name="jdbcUrl" value="jdbc:mysql://182.119.166.212:3306/activiti?characterEncoding=UTF-8&amp;useUnicode=true"/>
+		<property name="jdbcDriver" value="com.mysql.jdbc.Driver"/>
+		<property name="jdbcUsername" value="root"/>
+		<property name="jdbcPassword" value="1qazXSW23edc"/>
+		<!-- 自动更新数据库表结构 -->
+		<property name="databaseSchemaUpdate" value="true"/>
+		<!-- 自动启动定时器 -->
+		<property name="jobExecutorActivate" value="false" />
+		<property name="mailServerHost" value="mail.bankcomm.com"/>
+		<property name="mailServerPort" value="25"/>
+		<!-- 定制历史表存储的配置 -->
+		<!--property name="history" value="audit" /-->
+		<!-- 设置缓存流程定义个数,默认不限制,所有流程定义都会缓存 -->
+		<!--property name="processDefinitionCacheLimit" value="10" /-->
+		<!-- 配置事件监听器 ,任何事件都能触发这个监听器-->
+		<!-- property name="eventListeners"> 
+	      <list> 
+	         <bean class="com.activiti.listener.MyEventListener" /> 
+	      </list> 
+	    </property--> 
+	    <!-- 指定监听特定类型的事件 -->
+	    <!-- property name="typedEventListeners"> 
+	      <map> 
+	        <entry key="ENGINE_CREATED,ENGINE_CLOSED" > 
+	          <list> 
+	            <bean class="com.activiti.listener.MyEventListener" /> 
+	          </list> 
+	        </entry> 
+	      </map> 
+	    </property--> 
+	    <!-- 自定义动态表单的数据类型 -->
+	    <property name="customFormTypes">
+	    	<list>
+	    		<bean class="com.activiti.util.JavascriptFormType"></bean>
+	    	</list>
+	    </property>
+	</bean>
+
+</beans>
+
